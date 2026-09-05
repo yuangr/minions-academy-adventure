@@ -1,0 +1,149 @@
+/* ==========================================================================
+   《小黄人学院大冒险》多端自适应响应式样式表
+   适配 iPad / 平板、手机竖屏、手机横屏与宽屏显示器
+   ========================================================================== */
+
+/* 中屏与平板 (<= 768px) */
+@media (max-width: 768px) {
+  #app-container {
+    margin: 0;
+    min-height: 100vh;
+    border-radius: 0;
+    border-width: 0;
+    box-shadow: none;
+  }
+
+  .game-header {
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .brand-badge span {
+    display: none;
+  }
+
+  .characters-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .battle-stage-arena {
+    height: 140px;
+  }
+
+  .arena-actor svg {
+    width: 90px;
+    height: 90px;
+  }
+
+  .report-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .shop-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* 超小屏移动设备 (<= 480px) */
+@media (max-width: 480px) {
+  .view-screen {
+    padding: 16px 12px;
+  }
+
+  .hero-main-title {
+    font-size: 1.6rem;
+  }
+
+  .question-scenario {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .option-btn {
+    padding: 10px 12px;
+    font-size: 0.95rem;
+  }
+
+  .battle-items-bar,
+  .battle-weapons-bar {
+    padding: 6px 8px;
+    gap: 6px;
+  }
+
+  .weapons-scroll-row,
+  .items-scroll-row {
+    scrollbar-width: none;
+  }
+
+  .weapons-scroll-row::-webkit-scrollbar,
+  .items-scroll-row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .weapon-chip-btn,
+  .item-slot-btn {
+    font-size: 0.78rem;
+    padding: 4px 8px;
+  }
+
+  .shop-tabs-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .island-map-container {
+    padding: 16px 10px;
+    gap: 10px;
+  }
+
+  .island-atoll-card {
+    padding: 12px 12px;
+  }
+
+  .stage-boss-avatar {
+    width: 52px;
+    height: 52px;
+  }
+
+  .stage-boss-avatar svg {
+    width: 42px;
+    height: 42px;
+  }
+
+  .stage-details h3 {
+    font-size: 1.05rem;
+  }
+}
+
+/* 打印样式适配 (Window Print 纯净输出错题卷) */
+@media print {
+  body {
+    background: #FFF;
+  }
+  #app-container {
+    border: none;
+    box-shadow: none;
+    max-width: 100%;
+  }
+  .game-header, .hud-btn, .btn-primary, .btn-secondary, .battle-items-bar, .radar-wrapper {
+    display: none !important;
+  }
+  .view-screen {
+    display: block !important;
+    padding: 0;
+    background: #FFF;
+  }
+  .mistake-card {
+    border: 1px solid #000;
+    box-shadow: none;
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+}

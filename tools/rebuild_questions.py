@@ -1,0 +1,1210 @@
+# -*- coding: utf-8 -*-
+"""
+生成平衡的《小黄人学院大冒险》全科情境化题库：
+- 降低英语比例（英语 15.4%，数学 46.2%，语文 38.5%）
+- 答案打散，杜绝全为 A 选项（A/B/C/D 各占约 25%）
+- 严格对齐苏教版数学、统编版语文、译林版英语二年级上册教材考点
+"""
+
+import json
+
+QUESTIONS = [
+  # =========================================================================
+  # 第 1 关：矢量基地 (Vector's Lair) - 13题 (数6 / 语5 / 英2)
+  # =========================================================================
+  {
+    "id": "M101",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "乘法的初步认识与意义",
+    "difficulty": 1,
+    "scenario": "【鲍勃数香蕉】鲍勃给格鲁准备香蕉，每盘装4根香蕉，装了3盘。求一共有多少根香蕉，下面哪个乘法算式是正确的？",
+    "options": ["4 + 3 = 7", "4 × 3 = 12", "4 × 4 = 16", "3 + 3 + 3 = 9"],
+    "answer": 1,
+    "explanation": "苏教版第一单元：求几个相同加数的和用乘法计算最简便。每盘4根，3盘就是3个4相加，写作4×3=12或3×4=12。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M102",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "5的乘法口诀",
+    "difficulty": 1,
+    "scenario": "【斯图尔特的激光靶】斯图尔特打碎了5块能量靶，每块靶子可以积5点能量，他一共积累了多少点能量？对应的口诀是？",
+    "options": ["二五一十", "三五十五", "四五二十", "五五二十五"],
+    "answer": 3,
+    "explanation": "苏教版第一单元：5个5相加是25，乘法口诀是“五五二十五”。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M103",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "乘加乘减混合运算",
+    "difficulty": 2,
+    "scenario": "【实验室储物柜】格鲁的储物架上有4排抽屉，前3排每排有6个格子，第4排只有2个格子。一共有多少个格子？",
+    "options": ["3 × 6 + 2 = 20", "4 × 6 = 24", "3 × 6 - 2 = 16", "4 + 6 + 2 = 12"],
+    "answer": 0,
+    "explanation": "苏教版第一单元《乘加乘减》：前3排每排6个即3×6，再加上最后的2个，算式为3×6+2=20（个）。运算顺序：先算乘法，再算加法。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M104",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "6的乘法口诀应用",
+    "difficulty": 2,
+    "scenario": "【小黄人方队】凯文带领特工队排成整齐方队，横着看每排6只小黄人，正好排了4排。一共有多少只特工？",
+    "options": ["10只", "18只", "24只", "30只"],
+    "answer": 2,
+    "explanation": "苏教版第一单元：4个6相加，口诀“四六二十四”，算式4×6=24或6×4=24。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M105",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "乘数与积的名称",
+    "difficulty": 1,
+    "scenario": "【乘法算式名称】在乘法算式 6 × 3 = 18 中，数字 6 和 3 在算式中被称为什么？18 又叫什么？",
+    "options": ["加数与和", "乘数与积", "被减数与差", "被除数与商"],
+    "answer": 1,
+    "explanation": "苏教版第一单元概念：在乘法算式中，乘号前后的数叫做“乘数”，乘得的结果叫做“积”。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M106",
+    "stage": 1,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "一、1~6的表内乘法",
+    "knowledgePoint": "乘减应用巧算",
+    "difficulty": 2,
+    "scenario": "【飞天乌贼导弹】矢量的武器架上有5个发射器，每个发射器装6枚导弹，发射了1枚后，还剩多少枚导弹？",
+    "options": ["5 × 6 + 1 = 31", "5 + 6 - 1 = 10", "6 × 6 - 5 = 31", "5 × 6 - 1 = 29"],
+    "answer": 3,
+    "explanation": "苏教版第一单元：总数是5个6即5×6=30枚，发射了1枚即30-1=29枚，算式写作5×6-1=29。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C101",
+    "stage": 1,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《场景歌》",
+    "knowledgePoint": "数量词的精准搭配",
+    "difficulty": 1,
+    "scenario": "【小黄人阅兵】格鲁在军事基地检阅队伍，下列数量词搭配与课文《场景歌》完全一致的是哪一项？",
+    "options": [
+      "一座石桥、一群“红领巾”、一棵翠竹",
+      "一孔石桥、一队“红领巾”、一丛翠竹",
+      "一面帆船、一处鱼塘、一条翠竹",
+      "一只海鸥、一湾军舰、一束小溪"
+    ],
+    "answer": 1,
+    "explanation": "统编版二年级上册《场景歌》考点：一孔石桥、一队“红领巾”、一丛翠竹、一行垂柳、一只海鸥、一条帆船、一方鱼塘、一块稻田。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C102",
+    "stage": 1,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第一单元《小蝌蚪找妈妈》",
+    "knowledgePoint": "连续动作动词辨析",
+    "difficulty": 2,
+    "scenario": "【池塘侦察记】小黄人特工在池塘观察小蝌蚪变青蛙的过程。请选出动词搭配最准确的一项：小青蛙（ ）着碧绿的衣裳，（ ）着雪白的肚皮，（ ）着一对大眼睛。",
+    "options": [
+      "穿、露、睁",
+      "套、藏、鼓",
+      "披、挺、露",
+      "披、露、鼓"
+    ],
+    "answer": 3,
+    "explanation": "统编版二上第一课《小蝌蚪找妈妈》原句：“披着碧绿的衣裳，露着雪白的肚皮，鼓着一对大眼睛”。动作描写极生动准确。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C103",
+    "stage": 1,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第一单元《植物妈妈有办法》",
+    "knowledgePoint": "植物种子的传播方式",
+    "difficulty": 1,
+    "scenario": "【逃脱毒刺陷阱】矢量的手下用植物机关阻拦小黄人。下列哪种植物妈妈是靠“小动物的皮毛”把种子带到四面八方的？",
+    "options": ["苍耳", "蒲公英", "豌豆", "水稻"],
+    "answer": 0,
+    "explanation": "统编版第一单元《植物妈妈有办法》：苍耳妈妈给孩子穿上带刺的铠甲，只要挂住动物的皮毛，孩子们就能去田野山洼。蒲公英靠风，豌豆靠太阳晒炸。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C104",
+    "stage": 1,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第一单元《我是什么》",
+    "knowledgePoint": "自然界水的三态循环",
+    "difficulty": 2,
+    "scenario": "【实验室水汽谜题】小黄人加热烧杯中的液体，根据课文《我是什么》，水在太阳一晒后会变成什么升到空中？",
+    "options": ["冰（凝固成冰块）", "汽（变成极轻的气体）", "霜（落在地面）", "雪（从天而降）"],
+    "answer": 1,
+    "explanation": "统编版第一单元《我是什么》：“太阳一晒，我就变成汽。升到天空，我又变成无数极小极小的点儿，连成一片，在空中飘浮。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C105",
+    "stage": 1,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《场景歌》",
+    "knowledgePoint": "港湾与军舰量词",
+    "difficulty": 1,
+    "scenario": "【港湾基地侦察】小黄人来到矢量海边的秘密基地，按照课文《场景歌》，海面上的军舰和帆船应该用什么量词搭配？",
+    "options": ["一架军舰、一根帆船", "一台军舰、一顶帆船", "一艘军舰、一条帆船", "一匹军舰、一座帆船"],
+    "answer": 2,
+    "explanation": "统编版二上《场景歌》第一小节：“一只海鸥，一条帆船。一艘军舰，一处港湾。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "E101",
+    "stage": 1,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 1: She's my aunt",
+    "knowledgePoint": "家庭称谓与人称代词辨析",
+    "difficulty": 1,
+    "scenario": "【凯文介绍伙伴】Kevin 指着远处的格鲁太太（Lucy）向斯图尔特介绍，下列哪句话最准确？",
+    "options": [
+      "He's my uncle.",
+      "This is my brother.",
+      "She's my aunt.",
+      "I have a puppy."
+    ],
+    "answer": 2,
+    "explanation": "译林版 Unit 1 重点：介绍女性长辈用 She's my aunt.（她是我的姑姑/阿姨），男性用 He's my uncle。",
+    "audioLang": "en-US"
+  },
+  {
+    "id": "E102",
+    "stage": 1,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 1: She's my aunt",
+    "knowledgePoint": "核心疑问句型 Who's he/she?",
+    "difficulty": 1,
+    "scenario": "【神秘特工照片】鲍勃拿出一张老爷爷的照片，斯图尔特好奇地问：“Who's he?” 鲍勃应该怎样回答？",
+    "options": [
+      "She's my grandmother.",
+      "He's my grandfather.",
+      "I'm Bob.",
+      "Good morning!"
+    ],
+    "answer": 1,
+    "explanation": "译林版 Unit 1：询问男性是谁用 Who's he? 回答男性长辈 He's my grandfather (祖父/外祖父)。",
+    "audioLang": "en-US"
+  },
+
+  # =========================================================================
+  # 第 2 关：埃尔·马乔狂暴峡谷 (El Macho's Canyon) - 13题 (数6 / 语5 / 英2)
+  # =========================================================================
+  {
+    "id": "M201",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、1~6的表内除法",
+    "knowledgePoint": "平均分的含义与除法算式",
+    "difficulty": 1,
+    "scenario": "【分香蕉大作战】奥托带了18根香蕉，平均分给鲍勃、斯图尔特和凯文3只小黄人。每只小黄人可以分得几根？",
+    "options": ["18 - 3 = 15根", "18 ÷ 6 = 3根", "18 ÷ 3 = 6根", "3 × 6 = 18根"],
+    "answer": 2,
+    "explanation": "苏教版第二单元：把18根香蕉平均分成3份，求每份是多少用除法计算：18 ÷ 3 = 6（根）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M202",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、1~6的表内除法",
+    "knowledgePoint": "用乘法口诀求商",
+    "difficulty": 1,
+    "scenario": "【计算激光炮的商】激光充能显示算式为：24 ÷ 4 = （ ）。想哪句乘法口诀能快速求出商？",
+    "options": ["四六二十四", "三六十八", "四五二十", "二四得八"],
+    "answer": 0,
+    "explanation": "苏教版第二单元：想（四）六二十四，所以24 ÷ 4 = 6。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M203",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、综合与实践【奇妙的七巧板】",
+    "knowledgePoint": "七巧板的构成与图形认知",
+    "difficulty": 2,
+    "scenario": "【特工拼图密码】埃尔·马乔用一副七巧板封印了金库大门。请问一副标准的七巧板中，一共有多少个三角形？",
+    "options": ["3个", "4个", "5个", "7个"],
+    "answer": 2,
+    "explanation": "苏教版二上综合实践《奇妙的七巧板》：一副七巧板共7块板，包含5个三角形（2个大三角、1个中三角、2个小三角）、1个正方形和1个平行四边形。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M204",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、1~6的表内除法",
+    "knowledgePoint": "包含除法实际应用",
+    "difficulty": 2,
+    "scenario": "【特工越野车】有20只小黄人要前往恶人谷，每辆越野车只能坐5只特工。一共需要几辆越野车？",
+    "options": ["5辆", "4辆", "15辆", "25辆"],
+    "answer": 1,
+    "explanation": "苏教版第二单元：求20里面有几个5，用除法计算：20 ÷ 5 = 4（辆），口诀四五二十。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M205",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、1~6的表内除法",
+    "knowledgePoint": "除法算式各部分名称",
+    "difficulty": 1,
+    "scenario": "【除法算式读法】在算式 12 ÷ 3 = 4 中，12 叫做（ ），3 叫做（ ），4 叫做（ ）。",
+    "options": ["乘数、乘数、积", "被除数、除数、商", "加数、加数、和", "被减数、减数、差"],
+    "answer": 1,
+    "explanation": "苏教版第二单元概念：在除法算式中，除号前面的数叫“被除数”，除号后面的数叫“除数”，计算结果叫“商”。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M206",
+    "stage": 2,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "二、1~6的表内除法",
+    "knowledgePoint": "倍的认识初步",
+    "difficulty": 2,
+    "scenario": "【紫药水药剂瓶】实验室里有15瓶紫色药水，3瓶黄色解药。紫色药水的数量是黄色解药的几倍？",
+    "options": ["12倍", "3倍", "18倍", "5倍"],
+    "answer": 3,
+    "explanation": "苏教版第二单元：求一个数是另一个数的几倍，用除法计算：15 ÷ 3 = 5（倍）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C201",
+    "stage": 2,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "语文园地二·部首查字法",
+    "knowledgePoint": "部首查字法的三步流程",
+    "difficulty": 2,
+    "scenario": "【解密字典密码】凯文用部首查字法查“葡”字，先确定部首是（ ），在部首目录找到页码；再数除部首外还有（ ）画，在检字表中找到字。",
+    "options": ["艹字头，12画", "勹字头，10画", "艹字头，9画", "口字底，8画"],
+    "answer": 2,
+    "explanation": "统编版二上语文园地二：查“葡”字，部首是“艹”（3画），去掉部首后“匍”剩下9画，整字12画。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C202",
+    "stage": 2,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《树之歌》",
+    "knowledgePoint": "树木特性与构字规律",
+    "difficulty": 1,
+    "scenario": "【穿越恶人谷森林】斯图尔特看到漫山遍野红红的树林，联想起《树之歌》中的诗句：“（ ）秋天叶儿红，（ ）四季披绿装。” 括号里应填：",
+    "options": [
+      "枫树、松柏",
+      "杨树、木棉",
+      "银杏、水杉",
+      "桦树、金桂"
+    ],
+    "answer": 0,
+    "explanation": "统编版二上识字《树之歌》原句：“枫树秋天叶儿红，松柏四季披绿装。木棉喜暖在南方，桦树耐寒守北疆。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C203",
+    "stage": 2,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《拍手歌》",
+    "knowledgePoint": "形声字偏旁“隹”的含义",
+    "difficulty": 2,
+    "scenario": "【破解飞禽图腾】恶人谷石门刻有“雀、鹰、雁、雄”，鲍勃发现它们都带有偏旁“隹”（zhuī）。这个偏旁最初表示什么？",
+    "options": ["飞得很快的虫子", "短尾巴的鸟", "走兽的爪子", "水里的游鱼"],
+    "answer": 1,
+    "explanation": "统编版二上识字《拍手歌》考点：“隹”是象形字，甲骨文像一只鸟，在汉字中通常表示短尾巴的鸟类。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C204",
+    "stage": 2,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《田家四季歌》",
+    "knowledgePoint": "农事活动词语认知",
+    "difficulty": 2,
+    "scenario": "【农场伪装潜入】小黄人换上农夫装潜入农庄，《田家四季歌》中描写夏季农事忙碌的词语是哪一组？",
+    "options": ["打谷、割麦", "除雪、播种", "踏雪、赏花", "采桑、插秧"],
+    "answer": 3,
+    "explanation": "统编版二上识字《田家四季歌》第二小节：“夏季里，农事忙，采了蚕桑又插秧。早起勤耕作，归来戴月光。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C205",
+    "stage": 2,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第二单元·识字《树之歌》",
+    "knowledgePoint": "植物界活化石认知",
+    "difficulty": 1,
+    "scenario": "【植物活化石】埃尔·马乔的花园里种着古老的珍稀树木，《树之歌》中被称为“活化石”的树木是：",
+    "options": ["银杏、水杉", "枫树、松树", "金桂、木棉", "杨树、柏树"],
+    "answer": 0,
+    "explanation": "统编版二上《树之歌》原句：“银杏水杉活化石，金桂开花满院香。”银杏和水杉是古老的珍稀孑遗植物。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "E201",
+    "stage": 2,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 2: I have a rabbit",
+    "knowledgePoint": "宠物表达与颜色词汇",
+    "difficulty": 1,
+    "scenario": "【鲍勃的白兔】Bob 抱着一只可爱的小白兔向大家展示，他应该怎么说？",
+    "options": [
+      "I have a black cat. It's big.",
+      "Look at my dog. It's brown.",
+      "This is my pencil.",
+      "I have a white rabbit. It's cute."
+    ],
+    "answer": 3,
+    "explanation": "译林版 Unit 2 重点句型：I have a... (颜色+动物) 及评价 It's cute. (它很可爱)。white 表示白色，rabbit 是兔子。",
+    "audioLang": "en-US"
+  },
+  {
+    "id": "E202",
+    "stage": 2,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 3: It has a short tail",
+    "knowledgePoint": "动物外貌特征 long / short / big",
+    "difficulty": 2,
+    "scenario": "【怪兽特征描述】埃尔·马乔养了一只长耳朵、短尾巴的怪兽。下列英语描述最匹配的是：",
+    "options": [
+      "It has small ears and a long tail.",
+      "It has long ears and a short tail.",
+      "It has a big nose and two legs.",
+      "It has no mouth."
+    ],
+    "answer": 1,
+    "explanation": "译林版 Unit 3 核心句型：Look at... It has long ears (长耳朵) and a short tail (短尾巴)。",
+    "audioLang": "en-US"
+  },
+
+  # =========================================================================
+  # 第 3 关：斯嘉丽·杀手火山要塞 (Scarlet Overkill) - 13题 (数6 / 语5 / 英2)
+  # =========================================================================
+  {
+    "id": "M301",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、7~9的表内乘除法",
+    "knowledgePoint": "7-9乘法口诀及计算",
+    "difficulty": 2,
+    "scenario": "【熔岩阻拦网】斯嘉丽布下了7排熔岩地雷，每排有8颗。一共有多少颗熔岩地雷？",
+    "options": ["54颗", "48颗", "56颗", "63颗"],
+    "answer": 2,
+    "explanation": "苏教版第三单元：7个8或8个7相加，乘法口诀是“七八五十六”，算式7×8=56。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M302",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、7~9的表内乘除法",
+    "knowledgePoint": "用9的口诀求商",
+    "difficulty": 2,
+    "scenario": "【解除能量密码】要破除斯嘉丽的火箭裙护盾，必须算出 63 ÷ 9 的结果，商是几？",
+    "options": ["6", "8", "9", "7"],
+    "answer": 3,
+    "explanation": "苏教版第三单元：想口诀“七九六十三”，被除数63除以9，商是7。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M303",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、综合与实践【生活中的方向】",
+    "knowledgePoint": "东方日出与四面方向辨别",
+    "difficulty": 2,
+    "scenario": "【火山要塞辨方向】早晨，凯文站在火山要塞面向初升的太阳，他的前面是东，那么他的左面是什么方向？",
+    "options": ["北面", "南面", "西面", "东北面"],
+    "answer": 0,
+    "explanation": "苏教版第三单元综合实践《生活中的方向》口诀：早晨起来，面向太阳，前面是东，后面是西，左面是北，右面是南。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M304",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、综合与实践【生活中的方向】",
+    "knowledgePoint": "平面图上的方向口诀",
+    "difficulty": 1,
+    "scenario": "【特工军事地图】格鲁拿出一张恶人谷平面作战地图。地图上辨别方向的通用规则是：",
+    "options": [
+      "上南下北，左东右西",
+      "上北下南，左西右东",
+      "上东下西，左南右北",
+      "上北下南，左东右西"
+    ],
+    "answer": 1,
+    "explanation": "苏教版第三单元重点常识：在平面地图和图纸上，通常按照“上北下南，左西右东”来确定方向。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M305",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、7~9的表内乘除法",
+    "knowledgePoint": "8的乘法口诀解决问题",
+    "difficulty": 2,
+    "scenario": "【特工隐形药丸】一盒隐形药丸有8粒，格鲁买了4盒分给特工队。一共买了多少粒隐形药丸？",
+    "options": ["24粒", "36粒", "32粒", "28粒"],
+    "answer": 2,
+    "explanation": "苏教版第三单元：4个8相加，口诀“四八三十二”，算式4×8=32（粒）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M306",
+    "stage": 3,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "三、7~9的表内乘除法",
+    "knowledgePoint": "两步连乘连除计算",
+    "difficulty": 3,
+    "scenario": "【超级大炮充能】大炮充能算式是：2 × 4 × 7 = （ ）。计算结果是：",
+    "options": ["56", "48", "64", "52"],
+    "answer": 0,
+    "explanation": "苏教版第三单元两步计算：从左往右先算2×4=8，再算8×7=56，口诀“七八五十六”。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C301",
+    "stage": 3,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第四单元·古诗二首《登鹳雀楼》",
+    "knowledgePoint": "古诗名句理解与背诵",
+    "difficulty": 1,
+    "scenario": "【登上火山口高塔】斯图尔特爬上高塔极目远眺，想看到更远壮丽的景色，正如王之涣《登鹳雀楼》中写到的哲理名句：",
+    "options": [
+      "白日依山尽，黄河入海流。",
+      "飞流直下三千尺，疑是银河落九天。",
+      "欲穷千里目，更上一层楼。",
+      "危楼高百尺，手可摘星辰。"
+    ],
+    "answer": 2,
+    "explanation": "统编版第四单元《登鹳雀楼》后两句：“欲穷千里目，更上一层楼”，寓意要想看到更广阔的远方，就要站得更高，努力进取。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C302",
+    "stage": 3,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第四单元·古诗二首《望庐山瀑布》",
+    "knowledgePoint": "诗仙李白千古奇妙夸张比喻",
+    "difficulty": 2,
+    "scenario": "【瀑布奇景】小黄人看到熔岩瀑布倾泻而下，李白在《望庐山瀑布》中将飞流直下的瀑布奇特想象成：",
+    "options": [
+      "日照香炉生紫烟",
+      "疑是银河落九天（银河从九天倾落）",
+      "两岸猿声啼不住",
+      "轻舟已过万重山"
+    ],
+    "answer": 1,
+    "explanation": "统编版第四单元《望庐山瀑布》：“飞流直下三千尺，疑是银河落九天。”诗人奇妙地把瀑布比喻成银河从九重天上跌落人间。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C303",
+    "stage": 3,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第四单元《黄山奇石》",
+    "knowledgePoint": "形象比喻与拟人修辞",
+    "difficulty": 2,
+    "scenario": "【巨石迷阵】要通过斯嘉丽的奇石阵，需要说出《黄山奇石》课文中把石头比作“仙人”站在高耸山峰上伸手指路的奇石名字是：",
+    "options": ["猴子观海", "仙桃石", "金鸡叫天都", "仙人指路"],
+    "answer": 3,
+    "explanation": "统编版第四单元《黄山奇石》：“仙人指路就更有趣了！远远望去，那巨石真像一位仙人站在高高的山峰上，伸着手臂指向前方。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C304",
+    "stage": 3,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第三单元《曹冲称象》",
+    "knowledgePoint": "顺序承接词使用（先...再...然后...最后...）",
+    "difficulty": 2,
+    "scenario": "【格鲁称重火箭】小黄人想称出一枚超级火箭的重量，回忆起《曹冲称象》里聪明的办法。表示做事情先后顺序的最佳连词是：",
+    "options": [
+      "先……再……然后……最后……",
+      "不仅……而且……甚至……",
+      "虽然……但是……因为……",
+      "一边……一边……同时……"
+    ],
+    "answer": 0,
+    "explanation": "统编版第三单元《曹冲称象》课后考点：用“先赶大象上船……再在船舷画线……然后把大象牵下船装石头……最后称石头的重量”表示有序行动。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C305",
+    "stage": 3,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第四单元《日月潭》",
+    "knowledgePoint": "台湾日月潭名称由来",
+    "difficulty": 1,
+    "scenario": "【美丽的宝岛】课文《日月潭》中写道：湖中央有个美丽的小岛叫光华岛，北边像（ ），叫日潭；南边像（ ），叫月潭。",
+    "options": ["圆圆的太阳，弯弯的月亮", "长长的小船，圆圆的盘子", "明亮的镜子，弯弯的细眉", "高高的山峰，宽宽的大海"],
+    "answer": 0,
+    "explanation": "统编版第四单元《日月潭》第二自然段：“小岛把湖水分成两半，北边像圆圆的太阳，叫日潭；南边像弯弯的月亮，叫月潭。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "E301",
+    "stage": 3,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 4: Autumn",
+    "knowledgePoint": "秋天天气特征词汇 cool / yellow",
+    "difficulty": 1,
+    "scenario": "【英国秋天】斯嘉丽的城堡在秋天格外凉爽，树叶变黄飘落。用英语表达“秋天很凉爽”应该说：",
+    "options": [
+      "It's summer. It's hot.",
+      "It's winter. It's cold.",
+      "It's autumn. It's cool.",
+      "It's spring. It's warm."
+    ],
+    "answer": 2,
+    "explanation": "译林版 Unit 4 核心句：It's autumn. It's cool. Look at the yellow leaves. cool 表示凉爽，autumn 表示秋天。",
+    "audioLang": "en-US"
+  },
+  {
+    "id": "E302",
+    "stage": 3,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 4: Autumn",
+    "knowledgePoint": "动作动词 fly 理解",
+    "difficulty": 1,
+    "scenario": "【火箭裙升空】斯嘉丽启动火箭裙飞了起来，小黄人惊呼：“She can _____ in the sky!”",
+    "options": ["swim", "fly", "sleep", "eat"],
+    "answer": 1,
+    "explanation": "译林版 Unit 4 词汇：fly 表示飞翔、飞行，She can fly in the sky (她能在天空中飞)。",
+    "audioLang": "en-US"
+  },
+
+  # =========================================================================
+  # 第 4 关：巴萨扎·布莱德迪斯科塔 (Balthazar Bratt) - 13题 (数6 / 语5 / 英2)
+  # =========================================================================
+  {
+    "id": "M401",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "四、认识三位数",
+    "knowledgePoint": "传统算盘认数（梁/档/框/上珠5/下珠1）",
+    "difficulty": 3,
+    "scenario": "【奥托拨算盘】奥托在传统中国算盘的百位上拨了1颗上珠，个位上拨了3颗下珠，十位空档。算盘表示的三位数是？",
+    "options": ["103", "530", "130", "503"],
+    "answer": 3,
+    "explanation": "苏教版第四单元《认识算盘》：算盘上一颗上珠代表5，百位1颗上珠是500；十位空档用0占位；个位3颗下珠代表3，合起来是503。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M402",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "四、认识三位数",
+    "knowledgePoint": "三位数的数位顺序与计数单位",
+    "difficulty": 2,
+    "scenario": "【迪斯科计分器】巴萨扎的跳舞机得分是“七百零五”，这个数在数位顺序表上怎么写？由几个百和几个一组成？",
+    "options": [
+      "写作705，由7个百和5个一组成",
+      "写作750，由7个百和5个十组成",
+      "写作75，由7个十和5个一组成",
+      "写作7005，由7个千和5个一组成"
+    ],
+    "answer": 0,
+    "explanation": "苏教版第四单元：七百零五写作705，百位上是7表示7个百，十位上是0，个位上是5表示5个一。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M403",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "五、综合与实践【欢乐购物街】",
+    "knowledgePoint": "人民币元、角、分换算与找零",
+    "difficulty": 2,
+    "scenario": "【超市买泡泡糖】鲍勃拿一张10元纸币去买一盒巴萨扎牌特大泡泡糖，泡泡糖售价6元5角。店员应该找回多少钱？",
+    "options": ["4元5角", "3元5角", "3元", "4元"],
+    "answer": 1,
+    "explanation": "苏教版综合实践《欢乐购物街》：1元=10角，10元等于9元10角。9元10角 - 6元5角 = 3元5角。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M404",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "四、认识三位数",
+    "knowledgePoint": "三位数的大小比较",
+    "difficulty": 1,
+    "scenario": "【能量条比拼】特工武器能量如下：激光枪 428、急救包 482、冷冻炮 399。能量最大的装备是：",
+    "options": ["428", "482", "399", "一样大"],
+    "answer": 1,
+    "explanation": "苏教版第四单元数的大小比较：先看百位，百位相同看十位，482十位是8大于428的2，所以482最大。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M405",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "四、认识三位数",
+    "knowledgePoint": "整百数加减整百数口算",
+    "difficulty": 1,
+    "scenario": "【特工金币保险箱】格鲁在左边保险箱存了400枚金币，右边存了500枚金币。两个保险箱一共有多少枚金币？",
+    "options": ["800枚", "1000枚", "900枚", "950枚"],
+    "answer": 2,
+    "explanation": "苏教版第四单元：4个百加5个百是9个百，所以 400 + 500 = 900。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M406",
+    "stage": 4,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "四、认识三位数",
+    "knowledgePoint": "10个一百是一千",
+    "difficulty": 1,
+    "scenario": "【超级大金币堆】特工队整理了10捆金币条，每捆正好有100根。10个一百是多少？",
+    "options": ["一千（1000）", "一百（100）", "一万（10000）", "九百（900）"],
+    "answer": 0,
+    "explanation": "苏教版第四单元认数：10个十是一百，10个一百是一千（1000）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C401",
+    "stage": 4,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第五单元《坐井观天》",
+    "knowledgePoint": "寓言蕴含的深刻哲理",
+    "difficulty": 2,
+    "scenario": "【井底青蛙争辩】巴萨扎自封宇宙巨星，就像课文《坐井观天》里的青蛙。这则寓言告诫我们的道理是：",
+    "options": [
+      "天只有井口那么大",
+      "看问题要全面开阔，不能自以为是、目光狭隘",
+      "青蛙天天在井底很舒服",
+      "小鸟飞得太累了在吹牛"
+    ],
+    "answer": 1,
+    "explanation": "统编版第五单元《坐井观天》：青蛙坐在井底看天，以为天只有井口那么大。寓意看问题认识事物要开阔眼界，不能目光狭隘自以为是。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C402",
+    "stage": 4,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第五单元《寒号鸟》",
+    "knowledgePoint": "勤劳与懒惰拖延的辨析",
+    "difficulty": 2,
+    "scenario": "【严冬预警】面对即将到来的大雪寒潮，喜鹊早早衔枯草做窝，寒号鸟却“得过且过”冻死在崖缝里。这个故事劝诫我们：",
+    "options": [
+      "冬天就应该天天睡大觉",
+      "崖缝比大树上的窝暖和",
+      "做事要有远见，不能懒惰拖延、得过且过",
+      "喜鹊太爱管闲事"
+    ],
+    "answer": 2,
+    "explanation": "统编版第五单元《寒号鸟》：寒号鸟在暖和时不听喜鹊劝告筑巢，最终在严寒中冻死。教导我们做事要及早准备，不能懒散拖延。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C403",
+    "stage": 4,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第五单元《我要的是葫芦》",
+    "knowledgePoint": "事物之间相互依存的科学联系",
+    "difficulty": 2,
+    "scenario": "【格鲁的花园】种葫芦的人看到叶子上生了蚜虫却不管，说：“我要的是葫芦，叶子上的虫我不管。” 结果小葫芦一个个都落了。这是因为：",
+    "options": [
+      "叶子通过光合作用制造养分，叶子被虫蛀坏了，葫芦就无法吸取养分",
+      "葫芦自己不想长大了",
+      "蚜虫会保护小葫芦",
+      "太阳晒得太厉害了"
+    ],
+    "answer": 0,
+    "explanation": "统编版第五单元《我要的是葫芦》：事物之间是相互联系的。叶子给葫芦输送养料，不管叶子上的蚜虫，葫芦必然变黄脱落。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C404",
+    "stage": 4,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第五单元《字词复习》",
+    "knowledgePoint": "反义词精准配对",
+    "difficulty": 1,
+    "scenario": "【解除静音电波】巴萨扎的音波控制器上需要输入反义词密码，下列反义词完全正确的一组是：",
+    "options": [
+      "暖和 —— 炎热，得过且过 —— 认认真真",
+      "糊涂 —— 聪明，美丽 —— 漂亮",
+      "抬头 —— 望天，快乐 —— 高兴",
+      "懒惰 —— 勤劳，狭隘 —— 广阔"
+    ],
+    "answer": 3,
+    "explanation": "统编版二上词汇：懒惰的反义词是勤劳；狭隘的反义词是广阔/宽阔。美丽与漂亮、快乐与高兴是近义词。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C405",
+    "stage": 4,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第五单元《寒号鸟》",
+    "knowledgePoint": "得过且过词义理解",
+    "difficulty": 2,
+    "scenario": "【得过且过】寒号鸟在崖缝里叫着：“哆啰啰，哆啰啰，寒风冻死我，明天就做窝。” 这种“得过且过”的生活态度是指：",
+    "options": ["认真努力规划未来", "只要勉强过得去就这样过下去，胸无大志", "勇敢同严寒搏斗", "乐于助人帮助邻居"],
+    "answer": 1,
+    "explanation": "统编版第五单元《寒号鸟》：“得过且过”原指寒号鸟得过一日且过一日，现比喻工作、生活马马虎虎，没有长远打算，敷衍了事。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "E401",
+    "stage": 4,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 5: Have some juice, please!",
+    "knowledgePoint": "客气待客饮食交际用语",
+    "difficulty": 1,
+    "scenario": "【迪斯科吧台待客】巴萨扎假装热情招待小黄人喝果汁，最礼貌地递上果汁时应说：",
+    "options": [
+      "I don't like juice.",
+      "Give me money.",
+      "Have some juice, please!",
+      "Go to the classroom."
+    ],
+    "answer": 2,
+    "explanation": "译林版 Unit 5 核心句型：Have some juice, please!（请喝点果汁吧！）。回答通常是 Thank you. 或 No, thanks.",
+    "audioLang": "en-US"
+  },
+  {
+    "id": "E402",
+    "stage": 4,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 6: We like our school",
+    "knowledgePoint": "学校场所词汇 playground",
+    "difficulty": 2,
+    "scenario": "【特工操场集结】斯图尔特喜欢在宽阔平整的绿茵操场上跑步踢球，他兴奋地说：“This is our _____!”",
+    "options": ["library", "bedroom", "playground", "kitchen"],
+    "answer": 2,
+    "explanation": "译林版 Unit 6 核心词汇：playground（操场），library（图书馆），classroom（教室）。",
+    "audioLang": "en-US"
+  },
+
+  # =========================================================================
+  # 第 5 关：恶人六天王生肖神殿 (Vicious 6) - 13题 (数6 / 语5 / 英2)
+  # =========================================================================
+  {
+    "id": "M501",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "五、两位数加、减两位数",
+    "knowledgePoint": "进位加法口算",
+    "difficulty": 2,
+    "scenario": "【特工战力充能】凯文充能了48点激光能量，斯图尔特充能了37点能量。两人一共充能了多少点能量？",
+    "options": ["75点", "85点", "81点", "76点"],
+    "answer": 1,
+    "explanation": "苏教版第五单元《两位数加两位数进位加法》：48 + 37，个位8+7=15向十位进1个位写5，十位4+3+1=8，结果是85。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M502",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "五、两位数加、减两位数",
+    "knowledgePoint": "退位减法口算",
+    "difficulty": 3,
+    "scenario": "【防御装甲削弱】六天王的总护甲值是92点，小黄人特工大炮一击轰碎了46点护甲。六天王还剩多少点护甲？",
+    "options": ["46点", "56点", "44点", "54点"],
+    "answer": 0,
+    "explanation": "苏教版第五单元《两位数减两位数退位减法》：92 - 46，个位2不够减6从十位退1当10，12-6=6，十位9退1剩8，8-4=4，结果是46。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M503",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "六、有余数的除法",
+    "knowledgePoint": "核心铁律：余数必须小于除数",
+    "difficulty": 2,
+    "scenario": "【神殿古老密码】神殿石碑上刻着算式：□ ÷ 6 = 7……△。在这个算式中，余数△最大可以是几？",
+    "options": ["6", "7", "5", "1"],
+    "answer": 2,
+    "explanation": "苏教版第六单元《有余数的除法》铁律：在有余数的除法中，余数一定小于除数。除数是6，余数最大只能是5。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M504",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "六、有余数的除法",
+    "knowledgePoint": "实际生活应用：进一法（租船租车）",
+    "difficulty": 3,
+    "scenario": "【渡河特攻队】有26只小黄人特工要渡过地下河，每条橡皮艇最多坐4只小黄人。至少需要租几条橡皮艇才能全部渡河？",
+    "options": ["6条", "5条", "8条", "7条"],
+    "answer": 3,
+    "explanation": "苏教版第六单元实际问题解决：26 ÷ 4 = 6（条）……2（只）。剩下的2只特工也必须渡河，所以需要6+1=7（条）橡皮艇（进一法）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M505",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "六、有余数的除法",
+    "knowledgePoint": "实际生活应用：去尾法（包装制作）",
+    "difficulty": 3,
+    "scenario": "【扎制急救绷带】格鲁给特工30米绷带布料，做一条结实的急救带需要4米布。这批布料最多可以完整做成几条急救带？",
+    "options": ["7条", "8条", "6条", "5条"],
+    "answer": 0,
+    "explanation": "苏教版第六单元实际问题解决：30 ÷ 4 = 7（条）……2（米）。剩下的2米布不够再做一条急救带，只能做7条（去尾法）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "M506",
+    "stage": 5,
+    "subject": "math",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "苏教版数学",
+    "unit": "六、有余数的除法",
+    "knowledgePoint": "有余数除法口算",
+    "difficulty": 2,
+    "scenario": "【特工香蕉分配】43根香蕉平均分给5只小黄人，每人分得几根，还剩几根？",
+    "options": ["分8根，剩3根", "分7根，剩8根", "分9根，剩2根", "分8根，剩5根"],
+    "answer": 0,
+    "explanation": "苏教版第六单元：43 ÷ 5，想五八四十，商是8，43 - 40 = 3，所以每人分8根，还剩3根（余数3 < 除数5）。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C501",
+    "stage": 5,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第八单元《狐假虎威》",
+    "knowledgePoint": "“假”的本义与寓言讽刺内涵",
+    "difficulty": 2,
+    "scenario": "【成语解密】六天王的首领耀武扬威。小黄人联想到课文《狐假虎威》，“狐假虎威”中“假”的意思是：",
+    "options": ["虚假、不真实", "借着、利用", "放假休息", "如果、假如"],
+    "answer": 1,
+    "explanation": "统编版第八单元《狐假虎威》重点字义：“狐假虎威”意思是狐狸借着老虎的威风把百兽吓跑了。“假”在这里是“借”的意思。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C502",
+    "stage": 5,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "语文园地八·高频动物成语",
+    "knowledgePoint": "动物成语含义与语境运用",
+    "difficulty": 2,
+    "scenario": "【生肖符咒成语】奥托吃东西又猛又快，一大盆香蕉眨眼吃光。下面哪个成语最适合形容吃东西急猛的样子？",
+    "options": ["胆小如鼠", "如虎添翼", "害群之马", "狼吞虎咽"],
+    "answer": 3,
+    "explanation": "统编版二上语文园地八动物成语：狼吞虎咽形容吃东西像狼虎一样又急又猛；胆小如鼠形容胆量极小；如虎添翼形容力量更加强大。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C503",
+    "stage": 5,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "语文园地八·高频动物成语",
+    "knowledgePoint": "成语“惊弓之鸟”含义",
+    "difficulty": 3,
+    "scenario": "【敌人溃散】六天王的部下被格鲁的声波炮吓破了胆，一听到风吹草动就吓得趴在地上。这可以用哪个成语形容？",
+    "options": ["漏网之鱼", "惊弓之鸟", "如鸟兽散", "龙飞凤舞"],
+    "answer": 1,
+    "explanation": "统编版二上语文园地八动物成语：惊弓之鸟原指被弓箭吓怕了的鸟，比喻受过惊吓后遇到一点动静就非常害怕的人。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C504",
+    "stage": 5,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第七单元·古诗二首《敕勒歌》",
+    "knowledgePoint": "北朝民歌壮阔辽远意境",
+    "difficulty": 2,
+    "scenario": "【草原大决战】在辽阔的大草原上，小黄人迎风高唱北朝民歌《敕勒歌》：“天苍苍，野茫茫，（ ）。” 括号中应填：",
+    "options": [
+      "手可摘星辰",
+      "更上一层楼",
+      "风吹草低见牛羊",
+      "疑是银河落九天"
+    ],
+    "answer": 2,
+    "explanation": "统编版第七单元《敕勒歌》千古名句：“天似穹庐，笼盖四野。天苍苍，野茫茫，风吹草低见牛羊。”",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "C505",
+    "stage": 5,
+    "subject": "chinese",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "统编版语文",
+    "unit": "第七单元《雪孩子》",
+    "knowledgePoint": "雪孩子舍己救人与自然物理转化",
+    "difficulty": 2,
+    "scenario": "【雪孩子变身】为了救小白兔，雪孩子冲进火海融化成了水，后来在太阳下变成了轻飘飘的水蒸气，飞上天空变成了什么？",
+    "options": [
+      "一滴晶莹的露珠",
+      "一阵猛烈的狂风",
+      "一朵美丽的白云",
+      "一块坚硬的冰块"
+    ],
+    "answer": 2,
+    "explanation": "统编版第七单元《雪孩子》：雪孩子化成水，水变成水蒸气，升到空中化成了一朵美丽的白云。",
+    "audioLang": "zh-CN"
+  },
+  {
+    "id": "E501",
+    "stage": 5,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 7: Let's clean up!",
+    "knowledgePoint": "劳动保洁句型 Let's clean...",
+    "difficulty": 1,
+    "scenario": "【打扫格鲁实验室】大战之后实验室满是灰尘，Kevin 拿起抹布号召大家：“Let's clean the _____!” 鲍勃回答：“OK!”",
+    "options": ["pencils and pens", "desks and chairs", "apples and pears", "cats and dogs"],
+    "answer": 1,
+    "explanation": "译林版 Unit 7 核心句型：Let's clean the desk / chair / window / door.（让我们打扫桌子/椅子/窗户/门吧）。",
+    "audioLang": "en-US"
+  },
+  {
+    "id": "E502",
+    "stage": 5,
+    "subject": "english",
+    "grade": 2,
+    "term": "upper",
+    "textbook": "译林版英语",
+    "unit": "Unit 8: My dad is a doctor",
+    "knowledgePoint": "职业词汇 doctor / nurse / policeman",
+    "difficulty": 1,
+    "scenario": "【特工职业伪装】鲍勃换上了帅气的警服维持治安，大家称赞他是一名优秀的：",
+    "options": ["doctor", "nurse", "teacher", "policeman"],
+    "answer": 3,
+    "explanation": "译林版 Unit 8 核心职业词汇：policeman（男警察），doctor（医生），nurse（护士），teacher（老师）。",
+    "audioLang": "en-US"
+  }
+]
+
+# 统计分析
+total = len(QUESTIONS)
+sub_counts = {}
+ans_counts = {0: 0, 1: 0, 2: 0, 3: 0}
+
+for q in QUESTIONS:
+    sub = q["subject"]
+    sub_counts[sub] = sub_counts.get(sub, 0) + 1
+    ans_counts[q["answer"]] += 1
+
+print(f"总题数: {total}")
+print(f"学科分布: 数学={sub_counts.get('math', 0)}, 语文={sub_counts.get('chinese', 0)}, 英语={sub_counts.get('english', 0)}")
+print(f"选项分布: A={ans_counts[0]}, B={ans_counts[1]}, C={ans_counts[2]}, D={ans_counts[3]}")
+
+# 生成规范的 questionBank.js
+js_content = """/**
+ * 《小黄人学院大冒险》全科精编情境化题库 (V2.1 平衡优化版)
+ * 特色：
+ * 1. 降低英语题目比重（数学 46.2%、语文 38.5%、英语 15.4%，突出低年级核心主科）
+ * 2. 答案均匀分布于 A/B/C/D 四个选项，杜绝答案全为 A
+ * 3. 严格对齐新课标教材考点：苏教版数学、统编版语文、译林版英语二年级上册
+ */
+
+const QUESTION_BANK = """ + json.dumps(QUESTIONS, ensure_ascii=False, indent=2) + """;
+
+// 导出与全局挂载（支持 ES Module 与浏览器直接 script 引入）
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { QUESTION_BANK };
+}
+if (typeof window !== "undefined") {
+  window.QUESTION_BANK = QUESTION_BANK;
+}
+"""
+
+with open("js/questionBank.js", "w", encoding="utf-8") as f:
+    f.write(js_content)
+
+print("成功更新 js/questionBank.js!")

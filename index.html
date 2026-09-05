@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>《小黄人学院大冒险》小学二年级权威同步答题闯关游戏</title>
+  <!-- 遵循 DESIGN.md 规范的核心样式集 -->
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/animations.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+
+  <!-- 主游戏容器 -->
+  <div id="app-container">
+
+    <!-- 顶栏 HUD (常驻导航与资源状态) -->
+    <header class="game-header">
+      <div class="header-left">
+        <div class="brand-badge">
+          <span>🍌</span>
+          <div>小黄人学院大冒险</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="banana-coin-box">
+          <span>🪙</span>
+          <span id="header-coin-count">50</span>
+        </div>
+        <button id="nav-character-btn" class="hud-btn" title="查看/更换出战特工">
+          <span id="header-character-icon">🕶️</span>
+          <span id="header-character-name">凯文</span>
+        </button>
+        <button id="nav-map-btn" class="hud-btn" title="冒险大地图">🗺️ <span>地图</span></button>
+        <button id="nav-shop-btn" class="hud-btn" title="格鲁实验室道具商店">🧪 <span>实验室</span></button>
+        <button id="nav-mistakes-btn" class="hud-btn" title="错题档案馆">📖 <span>错题馆</span></button>
+        <button id="nav-report-btn" class="hud-btn" title="家长学情报告">📊 <span>学情</span></button>
+      </div>
+    </header>
+
+    <!-- 视图 1：主菜单与特工角色选择 -->
+    <main id="screen-menu" class="view-screen active">
+      <div class="hero-title-box">
+        <h1 class="hero-main-title">小黄人学院大冒险</h1>
+        <p class="hero-sub-title">二年级上册同步学测 · 击败五大恶人夺回金香蕉</p>
+      </div>
+
+      <div style="font-weight:800; font-size:1.1rem; color:#005C8A; margin-bottom:12px; text-align:center;">
+        选择你的特工搭档：
+      </div>
+
+      <!-- 四大特工卡片 -->
+      <div class="characters-grid">
+        <!-- 凯文 -->
+        <div class="character-card" data-char="kevin">
+          <div class="selected-badge">出战中</div>
+          <div class="character-avatar"></div>
+          <div class="character-name">凯文 Kevin</div>
+          <div class="character-hp">生命: 100 HP</div>
+          <div class="character-passive">【特工智囊】开局自带1副排除镜，连击伤害更高</div>
+        </div>
+
+        <!-- 斯图尔特 -->
+        <div class="character-card" data-char="stuart">
+          <div class="selected-badge">出战中</div>
+          <div class="character-avatar"></div>
+          <div class="character-name">斯图尔特 Stuart</div>
+          <div class="character-hp">生命: 100 HP</div>
+          <div class="character-passive">【摇滚暴击】连对2题后，激活1.5倍音波暴击</div>
+        </div>
+
+        <!-- 鲍勃 -->
+        <div class="character-card" data-char="bob">
+          <div class="selected-badge">出战中</div>
+          <div class="character-avatar"></div>
+          <div class="character-name">鲍勃 Bob</div>
+          <div class="character-hp">生命: 120 HP</div>
+          <div class="character-passive">【防挫卫士】血量更高，受击扣血减免 40%</div>
+        </div>
+
+        <!-- 奥托 -->
+        <div class="character-card" data-char="otto">
+          <div class="selected-badge">出战中</div>
+          <div class="character-avatar"></div>
+          <div class="character-name">奥托 Otto</div>
+          <div class="character-hp">生命: 105 HP</div>
+          <div class="character-passive">【话痨招财】通关额外+20金币，金币掉落+20%</div>
+        </div>
+      </div>
+
+      <div style="text-align:center; margin-top:10px;">
+        <button id="btn-start-adventure" class="btn-primary" style="font-size:1.35rem; padding:14px 44px;">
+          🚀 出发！智闯恶人谷
+        </button>
+      </div>
+
+      <div style="margin-top:24px; text-align:center; font-size:0.85rem; color:#78849E;">
+        📘 题库严格对齐：苏教版数学(孙丽谷/王林) · 统编版语文(温儒敏/王立军) · 译林版英语(何锋/齐迅)
+      </div>
+    </main>
+
+    <!-- 视图 2：世界大地图与关卡选择 -->
+    <section id="screen-map" class="view-screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <div>
+          <h2 style="font-size:1.4rem; font-weight:900; color:#005C8A;">🏝️ 欢乐岛群岛闯关大地图</h2>
+          <p style="font-size:0.9rem; color:#666;">严格按顺序攻克五大恶人岛屿，不可跳跃选关！每座岛藏着考点与金香蕉宝藏！</p>
+        </div>
+      </div>
+      <!-- 当前特工出战状态条 & 快速换人按钮 -->
+      <div class="current-agent-bar">
+        <div style="display:flex; align-items:center; gap:12px;">
+          <div id="map-agent-avatar" class="map-agent-avatar"></div>
+          <div>
+            <div style="font-size:0.8rem; color:#5A6578; font-weight:700;">当前出战特工：</div>
+            <div id="map-agent-name" style="font-size:1.15rem; font-weight:800; color:#005C8A;">凯文 Kevin (100 HP)</div>
+            <div id="map-agent-passive" style="font-size:0.8rem; color:#7B2CBF; font-weight:600;">【特工智囊】开局自带1副排除镜</div>
+          </div>
+        </div>
+        <button id="btn-change-agent-from-map" class="btn-primary" style="padding:8px 18px; font-size:0.95rem;">
+          🔄 切换角色
+        </button>
+      </div>
+
+      <div id="stages-map-container" class="map-container">
+        <!-- 由 JS 动态渲染五大关卡卡片 -->
+      </div>
+    </section>
+
+    <!-- 视图 3：回合制对战主界面 -->
+    <section id="screen-battle" class="view-screen">
+      <!-- 战斗顶栏操作条：撤退回地图与关卡提示 -->
+      <div class="battle-top-nav">
+        <button id="btn-battle-retreat" class="btn-retreat" title="退出当前战斗并返回地图">
+          <span>🏳️</span> 撤退回地图
+        </button>
+        <div id="battle-stage-title" class="battle-stage-title">第 1 关：矢量 Vector</div>
+      </div>
+
+      <!-- 双方血条 HUD -->
+      <div class="battle-hud">
+        <!-- 我方小黄人 -->
+        <div class="fighter-status">
+          <div id="battle-player-avatar" class="fighter-avatar-box"></div>
+          <div class="fighter-info">
+            <div id="battle-player-name" class="fighter-name">特工凯文</div>
+            <div class="hp-bar-bg">
+              <div id="player-hp-fill" class="hp-bar-fill" style="width: 100%;"></div>
+              <div id="player-hp-text" class="hp-text">100 / 100</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 连击与倒计时 -->
+        <div class="battle-center-meta">
+          <div class="timer-ring-box">
+            <span>⏱️</span>
+            <span id="battle-timer-text">35s</span>
+          </div>
+          <div id="battle-combo-badge" class="combo-badge">🔥 连击 × 2</div>
+        </div>
+
+        <!-- 敌方恶人 Boss -->
+        <div class="fighter-status enemy">
+          <div id="battle-enemy-avatar" class="fighter-avatar-box"></div>
+          <div class="fighter-info">
+            <div id="battle-enemy-name" class="fighter-name">矢量 Vector</div>
+            <div class="hp-bar-bg">
+              <div id="enemy-hp-fill" class="hp-bar-fill enemy" style="width: 100%;"></div>
+              <div id="enemy-hp-text" class="hp-text">125 / 125</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 舞台对决动画区 -->
+      <div id="battle-stage-arena" class="battle-stage-arena">
+        <div id="arena-player-actor" class="arena-actor"></div>
+        <div id="arena-enemy-actor" class="arena-actor"></div>
+      </div>
+
+      <!-- 特工武器选择快捷栏 (玩家可在答题攻击前实时切换) -->
+      <div class="battle-weapons-bar">
+        <span class="battle-bar-title">⚔️ 攻击武器选择：</span>
+        <div id="battle-weapons-container" class="weapons-scroll-row"></div>
+      </div>
+
+      <!-- 题目卡片区 -->
+      <div class="question-card">
+        <div class="question-meta-row">
+          <div class="question-tags">
+            <span id="q-badge-subject" class="q-badge math">数学</span>
+            <span id="q-badge-unit" class="q-badge" style="background:#F0F0F0; color:#555;">第1单元</span>
+          </div>
+          <button id="btn-read-question" class="btn-tts" title="朗读题干">
+            <span>🔊 伴读</span>
+          </button>
+        </div>
+        <div id="question-scenario-text" class="question-scenario">
+          题目加载中...
+        </div>
+
+        <!-- 选项四选一网格 -->
+        <div id="options-grid-container" class="options-grid"></div>
+      </div>
+
+      <!-- 底部道具快捷栏 -->
+      <div class="battle-items-bar">
+        <span class="battle-bar-title">🧪 发明道具：</span>
+        <div id="battle-items-container" class="items-scroll-row"></div>
+      </div>
+    </section>
+
+    <!-- 视图 4：格鲁实验室道具商店 -->
+    <section id="screen-shop" class="view-screen">
+      <div style="margin-bottom:12px;">
+        <h2 style="font-size:1.4rem; font-weight:900; color:#005C8A;">🧪 格鲁地下特工实验室与军械库</h2>
+        <p style="font-size:0.9rem; color:#666;">兑换专属武器、购买强力发明装备，助你攻克考点！</p>
+      </div>
+      <div id="shop-items-container"></div>
+    </section>
+
+    <!-- 视图 5：错题档案馆 -->
+    <section id="screen-mistakes" class="view-screen">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <div>
+          <h2 style="font-size:1.4rem; font-weight:900; color:#005C8A;">📖 特工错题档案馆</h2>
+          <p style="font-size:0.9rem; color:#666;">自动收录薄弱考点，温故知新，连续答对2次自动攻克！</p>
+        </div>
+        <button id="btn-print-mistakes" class="btn-secondary" style="font-size:0.9rem;">
+          🖨️ 打印错题卷
+        </button>
+      </div>
+      <div id="mistakes-list-container" class="mistake-list"></div>
+    </section>
+
+    <!-- 视图 6：家长学情中心与雷达图 -->
+    <section id="screen-report" class="view-screen">
+      <div style="margin-bottom:12px;">
+        <h2 style="font-size:1.4rem; font-weight:900; color:#005C8A;">📊 家长端 · 学情成长报告</h2>
+        <p style="font-size:0.9rem; color:#666;">基于真实答题追踪，全方位透视孩子在语数英各核心知识维度的掌握度。</p>
+      </div>
+
+      <div class="report-columns">
+        <!-- Canvas 雷达图 -->
+        <div class="radar-wrapper">
+          <h4 style="font-size:1.05rem; font-weight:800; color:#005C8A; margin-bottom:10px;">知识能力五维雷达图</h4>
+          <canvas id="radar-chart-canvas" width="300" height="300"></canvas>
+          <div style="font-size:0.8rem; color:#777; margin-top:8px;">★ 覆盖苏教版乘除、统编版语文与译林版英语</div>
+        </div>
+
+        <!-- 统计面板 -->
+        <div id="stats-overview-container" class="stats-card-group"></div>
+      </div>
+    </section>
+
+    <!-- 全局通用弹窗 (名师解析 / 胜利 / 失败 / 护眼提醒 / 角色切换继续或重置) -->
+    <div id="game-modal-overlay" class="game-modal-overlay">
+      <div class="modal-dialog">
+        <div id="modal-icon" class="modal-header-icon">💡</div>
+        <h3 id="modal-title" class="modal-title">名师考点点拨</h3>
+        <div id="modal-content" class="modal-content-box"></div>
+        <div id="modal-actions-container" class="modal-actions-box">
+          <button id="modal-secondary-btn" class="btn-secondary" style="display:none;">
+            取消
+          </button>
+          <button id="modal-action-btn" class="btn-primary">
+            确定
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 脚本引入：严谨顺序依赖 -->
+  <script src="js/assets.js"></script>
+  <script src="js/questionBank.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/battleEngine.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/report.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
