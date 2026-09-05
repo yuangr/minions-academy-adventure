@@ -2110,10 +2110,10 @@ const QUESTION_BANK = [
   }
 ];
 
-// 导出与全局挂载（支持 ES Module 与浏览器直接 script 引入）
-if (typeof module !== undefined && module.exports) {
+// 导出与全局挂载（支持 Node.js 与浏览器直接 script 引入）
+if (typeof module !== "undefined" && module.exports) {
   module.exports = { QUESTION_BANK };
 }
-if (typeof window !== undefined) {
+if (typeof window !== "undefined") {
   window.QUESTION_BANK = QUESTION_BANK;
 }

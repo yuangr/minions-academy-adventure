@@ -144,13 +144,20 @@ class BattleEngine {
     if (customQuestions && customQuestions.length > 0) {
       this.questions = this.shuffleArray(customQuestions.map(q => ({ ...q, options: [...q.options] })));
     } else {
-      const allStageQuestions = (window.QUESTION_BANK || []).filter(q => q.stage === stageNum);
+      const allStageQuestions = this.getStageQuestions(stageNum);
       // 随机打乱题目顺序，确保每局出题顺序常新
       this.questions = this.shuffleArray(allStageQuestions.map(q => ({ ...q, options: [...q.options] })));
     }
 
     this.questionIndex = 0;
     return this.getCurrentState();
+  }
+
+  // 获取对应关卡的题库试题
+  getStageQuestions(stageNum) {
+    const bank = (typeof window !== "undefined" && window.QUESTION_BANK) || (typeof QUESTION_BANK !== "undefined" ? QUESTION_BANK : []);
+    const num = Number(stageNum) || 1;
+    return bank.filter(q => Number(q.stage) === num);
   }
 
   // 局内切换装备的特工武器
@@ -183,12 +190,18 @@ class BattleEngine {
 
     // 题目防耗尽保障：若当前关卡题目用尽但战斗尚未结束，重新洗牌题库继续出题
     if (this.questionIndex >= this.questions.length) {
-      const allStageQuestions = (window.QUESTION_BANK || []).filter(q => q.stage === this.currentStage);
+      const allStageQuestions = this.getStageQuestions(this.currentStage);
       this.questions = this.shuffleArray(allStageQuestions.map(q => ({ ...q, options: [...q.options] })));
       this.questionIndex = 0;
     }
 
+    if (!this.questions || this.questions.length === 0) {
+      console.error("No questions available for stage", this.currentStage);
+      return null;
+    }
+
     const rawQ = this.questions[this.questionIndex];
+    if (!rawQ) return null;
     this.questionIndex++;
 
     // 动态打散选项顺序，杜绝死记硬背固定位置
